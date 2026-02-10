@@ -3,7 +3,7 @@ services:
   agrigpt-agent:
     build: .
     ports:
-      - "8000:8000"
+      - "8001:8000"
     # To use environment variables, create a .env file locally 
     # or pass them directly to the docker command.
     environment:

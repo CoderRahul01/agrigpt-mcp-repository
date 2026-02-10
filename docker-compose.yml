@@ -1,10 +1,13 @@
-version: '3.8'
 
 services:
   agrigpt-agent:
     build: .
     ports:
       - "8000:8000"
-    env_file:
-      - .env
+    # To use environment variables, create a .env file locally 
+    # or pass them directly to the docker command.
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - TAVILY_API_KEY=${TAVILY_API_KEY:-}
+      - LANGSMITH_API_KEY=${LANGSMITH_API_KEY:-}
     restart: always

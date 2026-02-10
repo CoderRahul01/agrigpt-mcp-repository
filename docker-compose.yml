@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # Main Agent Service
+  # This container runs the FastAPI agent which manages the MCP servers as subprocesses
+  agent:
+    build: .
+    container_name: agrigpt-agent
+    ports:
+      - "8000:8000"
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      - LANGSMITH_API_KEY=${LANGSMITH_API_KEY}
+      - LANGCHAIN_TRACING_V2=${LANGCHAIN_TRACING_V2:-false}
+      - LANGCHAIN_PROJECT=${LANGCHAIN_PROJECT:-agrigpt-dev}
+    restart: always
+    stdin_open: true
+    tty: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  default:
+    name: agrigpt-network
+    driver: bridge
